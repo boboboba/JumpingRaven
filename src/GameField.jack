@@ -1,0 +1,63 @@
+class GameField{
+    field Random rnd;
+    field Array walls;
+    field int wallsCount;
+    field int headIndex;
+
+    method int wallsCount(){
+        return wallsCount;
+    }
+    
+
+    constructor GameField new(Random random){
+        var int i, r;
+        let headIndex = 0;
+        let wallsCount = 4;
+        let rnd = random;
+        let walls = Array.new(wallsCount);
+        let i = 0;
+        while (i < wallsCount){
+            let r = rnd.next(49, 255 - 49);
+            let walls[i] = Wall.new(255 + (i * 160), r, 32, 32);
+            let i = i + 1;
+        }
+        return this;
+    }
+
+    method Array walls(){
+        return walls;
+    }
+    method void update(){
+        var int x, i;
+        var Wall t;
+
+        while (i < wallsCount){
+            let t = walls[i];
+            do t.update();
+            let i = i + 1;
+        }
+        let t = walls[headIndex];
+        if (t.isOutside()){
+            do Score.inc();
+            let i = 0;
+            let t = walls[headIndex];
+            do t.dispose();
+            let x = rnd.next(49, 255 - 49);
+            let walls[headIndex] = Wall.new(608, x, 32, 32) ;
+            let headIndex = Main.getRemainder(headIndex + 1, wallsCount);
+        }
+        return;
+    }
+
+    method void draw(){
+        var int i;
+        var Wall x;
+        let i = 0;
+        while (i < wallsCount){
+            let x = walls[i];
+            do x.draw();
+            let i = i + 1;
+        }
+        return;
+    }
+}

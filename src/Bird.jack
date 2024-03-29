@@ -1,0 +1,85 @@
+class Bird{
+    field int x;
+    field int y;
+    field int speed;
+    field char prev;
+    field char curr;
+    field Hitbox hitbox;
+    field int size;
+
+    constructor Bird new(int posx, int posy){
+        let speed = 2;
+        let size = 10;
+        let x = posx;
+        let y = posy;
+        let hitbox = Hitbox.new(x - size, y - size, x + size, y + size); 
+        return this;
+    }
+
+    method Hitbox getHitbox(){
+        return hitbox;
+    }
+
+    method void update(){
+        var int c, ts, gs;
+
+        let ts = Main.tickSpeed();
+        let gs = Main.gameSpeed();
+        let curr = Keyboard.keyPressed();
+        if (~(curr = 0) & ~(curr = prev) & ~(curr = 128)){
+
+            let speed = -(ts / gs);
+        }
+
+        else{
+            let speed = speed + ((ts / gs) / 4);
+        }
+
+        let y = y + speed;
+        let prev = curr;
+        do hitbox.setx(x - size);
+        do hitbox.sety(y - size);
+        
+        return;
+
+    }
+
+    method void draw(){
+        do BirdIcon2.draw( x - size, y - size);
+        //do Screen.drawCircle(x, y, size);
+        return;
+    }
+
+    method boolean isDead(GameField gameField){
+		var boolean flag;
+		var Hitbox b, top, bot;
+		var Wall h;
+		var Array hs;
+		var int c, i;
+        var int ssssss;
+        var char r;
+
+
+		let flag = false;
+		let b = getHitbox(); 
+		let hs = gameField.walls();
+		let c = gameField.wallsCount();
+		let i = 0;
+
+		while (i < c){
+			let h = hs[i];
+			let top = h.getTopHitbox();
+			let bot = h.getBottomHitbox();
+            let r = 0;
+			if (b.isIntersect(top) | b.isIntersect(bot)){
+				let flag = true;
+			}
+			let i = i + 1;
+		}
+
+        if (((y + size) > (254)) | ((y - size) < 1)){
+            let flag = true;
+        }
+		return flag;
+	}
+}

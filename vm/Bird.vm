@@ -1,0 +1,184 @@
+function Bird.new 0
+push constant 7
+call Memory.alloc 1
+pop pointer 0
+push constant 2
+pop this 2
+push constant 10
+pop this 6
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push this 0
+push this 6
+sub
+push this 1
+push this 6
+sub
+push this 0
+push this 6
+add
+push this 1
+push this 6
+add
+call Hitbox.new 4
+pop this 5
+push pointer 0
+return
+function Bird.getHitbox 0
+push argument 0
+pop pointer 0
+push this 5
+return
+function Bird.update 3
+push argument 0
+pop pointer 0
+call Main.tickSpeed 0
+pop local 1
+call Main.gameSpeed 0
+pop local 2
+call Keyboard.keyPressed 0
+pop this 4
+push this 4
+push constant 0
+eq
+not
+push this 4
+push this 3
+eq
+not
+and
+push this 4
+push constant 128
+eq
+not
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push local 1
+push local 2
+call Math.divide 2
+neg
+pop this 2
+goto IF_END0
+label IF_FALSE0
+push this 2
+push local 1
+push local 2
+call Math.divide 2
+push constant 4
+call Math.divide 2
+add
+pop this 2
+label IF_END0
+push this 1
+push this 2
+add
+pop this 1
+push this 4
+pop this 3
+push this 5
+push this 0
+push this 6
+sub
+call Hitbox.setx 2
+pop temp 0
+push this 5
+push this 1
+push this 6
+sub
+call Hitbox.sety 2
+pop temp 0
+push constant 0
+return
+function Bird.draw 0
+push argument 0
+pop pointer 0
+push this 0
+push this 6
+sub
+push this 1
+push this 6
+sub
+call BirdIcon2.draw 2
+pop temp 0
+push constant 0
+return
+function Bird.isDead 10
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push pointer 0
+call Bird.getHitbox 1
+pop local 1
+push argument 1
+call GameField.walls 1
+pop local 5
+push argument 1
+call GameField.wallsCount 1
+pop local 6
+push constant 0
+pop local 7
+label WHILE_EXP0
+push local 7
+push local 6
+lt
+not
+if-goto WHILE_END0
+push local 7
+push local 5
+add
+pop pointer 1
+push that 0
+pop local 4
+push local 4
+call Wall.getTopHitbox 1
+pop local 2
+push local 4
+call Wall.getBottomHitbox 1
+pop local 3
+push constant 0
+pop local 9
+push local 1
+push local 2
+call Hitbox.isIntersect 2
+push local 1
+push local 3
+call Hitbox.isIntersect 2
+or
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop local 0
+label IF_FALSE0
+push local 7
+push constant 1
+add
+pop local 7
+goto WHILE_EXP0
+label WHILE_END0
+push this 1
+push this 6
+add
+push constant 254
+gt
+push this 1
+push this 6
+sub
+push constant 1
+lt
+or
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+pop local 0
+label IF_FALSE1
+push local 0
+return

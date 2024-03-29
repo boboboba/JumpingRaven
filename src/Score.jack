@@ -1,0 +1,27 @@
+class Score{
+    static int score;
+
+    function int get(){
+        return score;
+    }
+
+    function void reset(){
+        let score = 1;
+        return;
+    }
+
+    function void inc(){
+        let score = score + 1;
+        return;
+    }
+
+    function void draw(int x, int y){
+        var String str;
+        let str = "Score: ";
+        do Output.moveCursor(x, y);
+        do Output.printString(str);
+        do Output.printInt(score);
+        do str.dispose();
+        return;
+    }
+}

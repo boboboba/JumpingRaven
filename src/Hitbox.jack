@@ -1,0 +1,84 @@
+class Hitbox{
+    field int x1;
+    field int y1;
+    field int w;
+    field int h;
+
+    constructor Hitbox new(int X1, int Y1, int X2, int Y2){
+        let x1 = X1;
+        let y1 = Y1;
+        let w = X2 - X1;
+        let h = Y2 - Y1;
+        
+        return this;
+    }
+
+    method boolean isIntersect(Hitbox other){
+        var boolean result;
+        
+
+        let result = false;
+        if ((x2() > other.x1()) & (other.x2() > x1) &
+            (y2() > other.y1()) & (other.y2() > y1)) {
+            let result =  true;
+        }
+
+        return result;
+    }
+
+    method void draw(){
+        var int gs, ts;
+        let ts = Main.tickSpeed();
+        let gs = Main.gameSpeed();
+        if ((x2() < (512 - (ts / gs))) &( x2() > 0)){
+            do Screen.setColor(false);
+            do Screen.drawRectangle(x2(), y1, x2() +  (ts / gs), y2());
+        }
+        if (((x1) > (ts / gs)) & (x1 < 512)){
+            do Screen.setColor(true);
+            do Screen.drawRectangle(x1 - (ts / gs), y1, x1, y2());
+        }
+        return;
+    }
+
+    method void drawFull(){
+        var int gs, ts;
+        let ts = Main.tickSpeed();
+        let gs = Main.gameSpeed();
+        if ((x2() < (512)) &( x1() > 0)){
+            do Screen.drawRectangle(x1(), y1, x2(), y2());
+        }
+        return;
+    }
+
+    method int x1(){
+        return x1;
+    }
+
+    method int x2(){
+        return x1 + w;
+    }
+    
+    method int y1(){
+        return y1;
+    }
+    
+    method int y2(){
+        return y1 + h;
+    }
+
+    method void setx(int v){
+        let x1 = v;
+        return;
+    }
+    
+    method void sety(int v){
+        let y1 = v;
+        return;
+    }
+
+    method void dispose(){
+        do Memory.deAlloc(this);
+        return;
+    }
+}

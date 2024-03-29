@@ -1,0 +1,22 @@
+class Random{
+    field int seed;
+    field int curr;
+
+    constructor Random new(int s){
+        let seed = s;
+        let curr = seed * 37;
+        return this;
+    }
+
+    method int next(int min, int max){
+        var int a;
+        let a = (curr  + 317)* (curr + 239) * curr * 2357 / 311;
+        let a = Main.getRemainder(a, max - min);
+        let a = a + (max - min);
+        let a = Main.getRemainder(a, max - min);
+        let a = a + min;
+        let curr = curr + 11;
+
+        return a;
+    }
+}

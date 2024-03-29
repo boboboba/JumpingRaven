@@ -1,0 +1,57 @@
+class Wall{
+    field int centerY;
+    field int x;
+    field int passWide;
+    field int passLen;
+    field Hitbox bottomRect;
+    field Hitbox topRect;
+
+    constructor Wall new(int posx, int posy, int wide, int len){
+        let centerY = posy;
+        let x = posx;
+        let passWide = wide;
+        let passLen = len;
+        let bottomRect = Hitbox.new(x - passLen, centerY + passWide, x + passLen, 255);
+        let topRect = Hitbox.new(x - passLen, 0, x + passLen, centerY - passWide);
+
+        return this; 
+    }
+
+    
+    method Hitbox getTopHitbox(){
+        return topRect;
+    }
+
+    method Hitbox getBottomHitbox(){
+        return bottomRect;
+    }
+
+    method void update(){
+        var int ts, gs;
+        let ts = Main.tickSpeed();
+        let gs = Main.gameSpeed();
+        let x = x - (ts / gs);
+        do bottomRect.setx(x - passLen);
+        do topRect.setx(x - passLen);
+        return;
+    }
+
+    method boolean isOutside(){
+        return x < -passLen;
+    }
+
+
+    method void draw(){
+        do bottomRect.draw();
+        do topRect.draw();
+        return;
+    }
+
+
+    method void dispose() {
+        do bottomRect.dispose();
+        do topRect.dispose();
+        do Memory.deAlloc(this);
+        return;
+    }
+}

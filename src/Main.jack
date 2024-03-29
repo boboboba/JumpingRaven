@@ -1,0 +1,98 @@
+class Main{
+	static int tickSpeed;
+	static int gameSpeed;
+	static int score;
+
+	function int tickSpeed(){
+		return tickSpeed;
+	}
+
+	function int gameSpeed(){
+		return gameSpeed;
+	}
+	function void main(){
+		var boolean isKeyPressed, running;
+		var int counter;
+		var GameField gameField;
+		var Bird bird, t;
+		var Array a;
+		var int key;
+		var String str;
+		var Random rnd;
+		var Score score;
+		
+		let str = "Presss Enter to start";
+		let gameSpeed = 8;
+		let tickSpeed = 64;
+
+		let isKeyPressed = false;
+
+		do Output.moveCursor(9, 25);
+		do Output.printString(str);
+		while (~isKeyPressed){
+			let counter = counter + 1;
+			let key = Keyboard.keyPressed();
+			if (~(key = 0)){
+				let isKeyPressed = true;
+			}
+			do Sys.wait(7);
+		}
+
+		do Screen.clearScreen();
+
+
+		
+		let rnd = Random.new(counter);
+		let running = true;
+
+		let gameField = GameField.new(rnd);
+		let bird = Bird.new(96,100);
+
+		while (running){
+			
+			do Screen.setColor(false);
+			do bird.draw();
+			
+			do bird.update();
+			do gameField.update();
+
+			if (bird.isDead(gameField)){
+				do Screen.clearScreen();
+
+				do str.dispose();
+				do Output.moveCursor(9, 28);
+				let str = "Game over";
+				do Output.printString(str);
+
+				do Score.draw(10, 29);
+
+				do str.dispose();
+				do Output.moveCursor(11, 25);
+				let str = "Press R to restart";
+				do Output.printString(str);
+
+				
+				while (~(Keyboard.keyPressed() = 82)){}
+				do Screen.clearScreen();
+
+				let bird = Bird.new(96,100);
+				let gameField = GameField.new(rnd);
+				do Score.reset();
+
+			}
+			do Screen.setColor(true);
+			do bird.draw();
+			do gameField.draw();
+			do Score.draw(0,0);
+			do Sys.wait(tickSpeed);
+		}
+		return;
+	}
+
+	function int getRemainder(int x, int y){
+		if (x < 0){
+			let x = -x;
+		}
+		return x - ((x / y) * y);
+	}
+}

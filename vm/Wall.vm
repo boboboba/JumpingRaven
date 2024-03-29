@@ -1,0 +1,108 @@
+function Wall.new 0
+push constant 6
+call Memory.alloc 1
+pop pointer 0
+push argument 1
+pop this 0
+push argument 0
+pop this 1
+push argument 2
+pop this 2
+push argument 3
+pop this 3
+push this 1
+push this 3
+sub
+push this 0
+push this 2
+add
+push this 1
+push this 3
+add
+push constant 255
+call Hitbox.new 4
+pop this 4
+push this 1
+push this 3
+sub
+push constant 0
+push this 1
+push this 3
+add
+push this 0
+push this 2
+sub
+call Hitbox.new 4
+pop this 5
+push pointer 0
+return
+function Wall.getTopHitbox 0
+push argument 0
+pop pointer 0
+push this 5
+return
+function Wall.getBottomHitbox 0
+push argument 0
+pop pointer 0
+push this 4
+return
+function Wall.update 2
+push argument 0
+pop pointer 0
+call Main.tickSpeed 0
+pop local 0
+call Main.gameSpeed 0
+pop local 1
+push this 1
+push local 0
+push local 1
+call Math.divide 2
+sub
+pop this 1
+push this 4
+push this 1
+push this 3
+sub
+call Hitbox.setx 2
+pop temp 0
+push this 5
+push this 1
+push this 3
+sub
+call Hitbox.setx 2
+pop temp 0
+push constant 0
+return
+function Wall.isOutside 0
+push argument 0
+pop pointer 0
+push this 1
+push this 3
+neg
+lt
+return
+function Wall.draw 0
+push argument 0
+pop pointer 0
+push this 4
+call Hitbox.draw 1
+pop temp 0
+push this 5
+call Hitbox.draw 1
+pop temp 0
+push constant 0
+return
+function Wall.dispose 0
+push argument 0
+pop pointer 0
+push this 4
+call Hitbox.dispose 1
+pop temp 0
+push this 5
+call Hitbox.dispose 1
+pop temp 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return

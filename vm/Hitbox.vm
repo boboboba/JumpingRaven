@@ -1,0 +1,200 @@
+function Hitbox.new 0
+push constant 4
+call Memory.alloc 1
+pop pointer 0
+push argument 0
+pop this 0
+push argument 1
+pop this 1
+push argument 2
+push argument 0
+sub
+pop this 2
+push argument 3
+push argument 1
+sub
+pop this 3
+push pointer 0
+return
+function Hitbox.isIntersect 1
+push argument 0
+pop pointer 0
+push constant 0
+pop local 0
+push pointer 0
+call Hitbox.x2 1
+push argument 1
+call Hitbox.x1 1
+gt
+push argument 1
+call Hitbox.x2 1
+push this 0
+gt
+and
+push pointer 0
+call Hitbox.y2 1
+push argument 1
+call Hitbox.y1 1
+gt
+and
+push argument 1
+call Hitbox.y2 1
+push this 1
+gt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+not
+pop local 0
+label IF_FALSE0
+push local 0
+return
+function Hitbox.draw 2
+push argument 0
+pop pointer 0
+call Main.tickSpeed 0
+pop local 1
+call Main.gameSpeed 0
+pop local 0
+push pointer 0
+call Hitbox.x2 1
+push constant 512
+push local 1
+push local 0
+call Math.divide 2
+sub
+lt
+push pointer 0
+call Hitbox.x2 1
+push constant 0
+gt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push constant 0
+call Screen.setColor 1
+pop temp 0
+push pointer 0
+call Hitbox.x2 1
+push this 1
+push pointer 0
+call Hitbox.x2 1
+push local 1
+push local 0
+call Math.divide 2
+add
+push pointer 0
+call Hitbox.y2 1
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push this 0
+push local 1
+push local 0
+call Math.divide 2
+gt
+push this 0
+push constant 512
+lt
+and
+if-goto IF_TRUE1
+goto IF_FALSE1
+label IF_TRUE1
+push constant 0
+not
+call Screen.setColor 1
+pop temp 0
+push this 0
+push local 1
+push local 0
+call Math.divide 2
+sub
+push this 1
+push this 0
+push pointer 0
+call Hitbox.y2 1
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE1
+push constant 0
+return
+function Hitbox.drawFull 2
+push argument 0
+pop pointer 0
+call Main.tickSpeed 0
+pop local 1
+call Main.gameSpeed 0
+pop local 0
+push pointer 0
+call Hitbox.x2 1
+push constant 512
+lt
+push pointer 0
+call Hitbox.x1 1
+push constant 0
+gt
+and
+if-goto IF_TRUE0
+goto IF_FALSE0
+label IF_TRUE0
+push pointer 0
+call Hitbox.x1 1
+push this 1
+push pointer 0
+call Hitbox.x2 1
+push pointer 0
+call Hitbox.y2 1
+call Screen.drawRectangle 4
+pop temp 0
+label IF_FALSE0
+push constant 0
+return
+function Hitbox.x1 0
+push argument 0
+pop pointer 0
+push this 0
+return
+function Hitbox.x2 0
+push argument 0
+pop pointer 0
+push this 0
+push this 2
+add
+return
+function Hitbox.y1 0
+push argument 0
+pop pointer 0
+push this 1
+return
+function Hitbox.y2 0
+push argument 0
+pop pointer 0
+push this 1
+push this 3
+add
+return
+function Hitbox.setx 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 0
+push constant 0
+return
+function Hitbox.sety 0
+push argument 0
+pop pointer 0
+push argument 1
+pop this 1
+push constant 0
+return
+function Hitbox.dispose 0
+push argument 0
+pop pointer 0
+push pointer 0
+call Memory.deAlloc 1
+pop temp 0
+push constant 0
+return
